@@ -1,0 +1,75 @@
+USE [SCUFCAS]
+GO
+/****** Object:  StoredProcedure [dbo].[charsep_07]    Script Date: 22-11-2021 17:31:59 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+--exec charsep_07 @strname='Prem Kumar',@s1=4,@e1=6
+
+ALTER proc [dbo].[charsep_07]
+( @strname varchar(max),
+@s1 INT,
+@e1 INT
+) as 
+Begin
+Declare @name varchar(max)
+--@val int
+--set @val=(@e1-@s1)+1
+select @name=(select substring(@strname,@s1,(@e1-@s1)+1)) 
+
+select @name
+ 
+DECLARE @Total INT = LEN(@name)
+DECLARE @Counter INT = @Total
+
+WHILE @Counter >= 1
+BEGIN
+
+    IF  @Counter + 1 <= @Total
+    BEGIN
+        SET @name = STUFF(@name, @Counter + 1, 0, ', ')
+    END
+
+    SET @Counter = @Counter - 1
+END
+
+--SELECT @name
+
+select Item from  dbo.splitstrings(@name,',')
+End
+
+
+
+
+
+
+-- DECLARE @Char VARCHAR(800) = 'ananth' --sample data
+
+--DECLARE @TotalChar INT = LEN(@Char)
+--DECLARE @Counter INT = @TotalChar
+
+--WHILE @Counter >= 1
+--BEGIN
+
+--    IF @Counter % 2 = 0 AND @Counter + 1 <= @TotalChar
+--    BEGIN
+--	select @Counter
+--        SET @Char = STUFF(@Char, @Counter + 0, 1, ', ')
+--    END
+
+--    SET @Counter = @Counter - 1
+--END
+
+--SELECT @Char
+
+
+
+
+
+
+
+
+
+
